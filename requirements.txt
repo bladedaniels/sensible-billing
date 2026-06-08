@@ -1,0 +1,8 @@
+5. Scroll down and click the green **Commit changes** (or Save) button.
+
+---
+
+### What to do next:
+Once you save that file, Streamlit Cloud will automatically detect it, notice your changes, and begin rebuilding your container. 
+
+Give it about 1 to 2 minutes to download those packages in the background. If the app screen doesn't update on its own, look at the bottom right corner of your Streamlit webpage, click **"Manage app"**, click the three little dots `...`, and select **Reboot app**. Your billing app will spin right up!
