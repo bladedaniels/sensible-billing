@@ -77,12 +77,12 @@ if 'documents' not in st.session_state:
     st.session_state.documents = []
 
 # --- TOP BRANDING BLOCK ---
-st.markdown(""", unsafe_allow_html=True)
-<div class="brand-banner">
+st.markdown("""
+    <div class="brand-banner">
         <div class="brand-title">🔊 SENSIBLE HIFI</div>
         <div class="brand-subtitle">Billing Studio & Client Ledger</div>
     </div>
-""", unsafe_allowed_html=True)
+""", unsafe_allow_html=True)
 
 # --- NAVIGATION TABS ---
 tab1, tab2, tab3 = st.tabs(["⚡ Quick Bill", "📂 Data Vault", "📜 Ledger & QB Export"])
