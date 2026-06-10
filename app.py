@@ -1,11 +1,7 @@
 import streamlit as st
 import pandas as pd
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib import colors
 import io
-import os
-import json
-import datetime
+from datetime import datetime
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
