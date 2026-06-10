@@ -180,12 +180,11 @@ with tab2:
     
     c1, c2 = st.columns(2, gap="medium")
     with c1:
-        st.markdown("""
-        <div style="background-color: white; padding: 20px; border-radius: 12px; border: 1px solid #E2E8F0;">
+        st.markdown(""", unsafe_allow_html=True)        <div style="background-color: white; padding: 20px; border-radius: 12px; border: 1px solid #E2E8F0;">
             <strong>Accounts Matrix (Clients)</strong><br>
             <span style="font-size:0.8rem; color:#64748B;">Required Columns: Client Name, Email</span>
         </div>
-        """, unsafe_allowed_html=True)
+        """, unsafe_allow_html=True)
         c_file = st.file_uploader("Select Client File", type="csv", label_visibility="collapsed")
         if c_file:
             df = pd.read_csv(c_file)
@@ -196,7 +195,7 @@ with tab2:
                 st.error("Header mismatch. Missing 'Client Name' or 'Email'.")
 
     with c2:
-        st.markdown("""
+        st.markdown(""", unsafe_allow_html=True)
         <div style="background-color: white; padding: 20px; border-radius: 12px; border: 1px solid #E2E8F0;">
             <strong>SKU / Price Book (Products)</strong><br>
             <span style="font-size:0.8rem; color:#64748B;">Required Columns: Product/Service, Rate</span>
@@ -242,7 +241,7 @@ with tab3:
                 </div>
                 {f'<div style="font-size:0.8rem; color:#2563EB; margin-top:6px;">🔗 Payment Portal Active</div>' if row['Payment Link'] != 'N/A' else ''}
             </div>
-            """, unsafe_allowed_html=True)
+            """, unsafe_allow_html=True)
             
             # Operational Mini Action Panel directly under the card components
             act1, act2, _ = st.columns([1, 1, 3])
