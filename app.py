@@ -77,8 +77,8 @@ if 'documents' not in st.session_state:
     st.session_state.documents = []
 
 # --- TOP BRANDING BLOCK ---
-st.markdown("""
-    <div class="brand-banner">
+st.markdown(""", unsafe_allowed_html=True)
+<div class="brand-banner">
         <div class="brand-title">🔊 SENSIBLE HIFI</div>
         <div class="brand-subtitle">Billing Studio & Client Ledger</div>
     </div>
@@ -195,7 +195,7 @@ with tab2:
                 st.error("Header mismatch. Missing 'Client Name' or 'Email'.")
 
     with c2:
-        st.markdown(""", unsafe_allow_html=True)
+        st.markdown(""", unsafe_allowed_html=True)
         <div style="background-color: white; padding: 20px; border-radius: 12px; border: 1px solid #E2E8F0;">
             <strong>SKU / Price Book (Products)</strong><br>
             <span style="font-size:0.8rem; color:#64748B;">Required Columns: Product/Service, Rate</span>
