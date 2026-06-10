@@ -68,7 +68,6 @@ st.markdown(""", unsafe_allow_html=True)
     }
     </style>
 """, unsafe_allow_html=True)
-
 # --- DATABASE / STATE CONTROLLER ---
 if 'clients' not in st.session_state:
     st.session_state.clients = pd.DataFrame(columns=["Client Name", "Email", "Phone"])
@@ -78,8 +77,8 @@ if 'documents' not in st.session_state:
     st.session_state.documents = []
 
 # --- TOP BRANDING BLOCK ---
-st.markdown("""
-    <div class="brand-banner">
+st.markdown(""", unsafe_allow_html=True)
+<div class="brand-banner">
         <div class="brand-title">🔊 SENSIBLE HIFI</div>
         <div class="brand-subtitle">Billing Studio & Client Ledger</div>
     </div>
