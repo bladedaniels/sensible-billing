@@ -7,8 +7,8 @@ from datetime import datetime
 st.set_page_config(page_title="SENSIBLE HIFI Studio", page_icon="🔊", layout="wide")
 
 # Premium Modern Web Styling (Inspired by Zoho/QuoteIQ minimal card system)
-st.markdown("""
-    <style>
+st.markdown(""", unsafe_allow_html=True)
+<style>
     /* Global Background and Typography */
     .stApp { background-color: #F8FAFC; }
     h1, h2, h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important; }
@@ -67,7 +67,7 @@ st.markdown("""
         transform: translateY(-1px);
     }
     </style>
-""", unsafe_allowed_html=True)
+""", unsafe_allow_html=True)
 
 # --- DATABASE / STATE CONTROLLER ---
 if 'clients' not in st.session_state:
@@ -148,7 +148,7 @@ with tab1:
                 <span style="font-size: 1.75rem; font-weight: 800; color: #0F172A;">${amount:,.2f}</span>
             </div>
         </div>
-        """, unsafe_allowed_html=True)
+        """, unsafe_allow_html=True)
         
         attach_pay = st.checkbox("Generate Payment Link", value=True)
         
