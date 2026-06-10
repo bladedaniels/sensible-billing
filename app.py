@@ -3,285 +3,224 @@ import pandas as pd
 import io
 from datetime import datetime
 
-# --- SLEEK UX CONFIGURATION & BRANDING ---
-st.set_page_config(page_title="SENSIBLE HIFI Studio", page_icon="🔊", layout="wide")
+# --- ZOHO BLUEPRINT CONFIGURATION ---
+st.set_page_config(page_title="Zoho Invoice Clone", page_icon="💼", layout="wide")
 
-# Premium Modern Web Styling (Inspired by Zoho/QuoteIQ minimal card system)
+# Inject Premium Zoho CSS Layouts
 st.markdown("""
     <style>
-    /* Global Background and Typography */
-    .stApp { background-color: #F8FAFC; }
-    h1, h2, h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important; }
+    /* Zoho Flat UI Foundations */
+    .stApp { background-color: #F3F4F6; }
     
-    /* Branding Header Card */
-    .brand-banner {
-        background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-        padding: 30px;
-        border-radius: 16px;
-        color: white;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    }
-    .brand-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.05em; }
-    .brand-subtitle { font-size: 1rem; color: #94A3B8; margin-top: 5px; }
-
-    /* Modern Minimalist Cards */
-    .invoice-card {
-        background-color: white;
-        padding: 24px;
-        border-radius: 14px;
-        border: 1px solid #E2E8F0;
-        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+    /* Top Zoho Action Bar Ribbon */
+    .zoho-header {
+        background-color: #FFFFFF;
+        padding: 15px 25px;
+        border-bottom: 1px solid #E5E7EB;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 20px;
     }
+    .zoho-logo { color: #1E40AF; font-weight: 800; font-size: 1.3rem; letter-spacing: -0.5px; }
     
-    /* Status Badges */
-    .badge {
-        padding: 6px 12px;
-        border-radius: 9999px;
+    /* Premium Document Card Styling */
+    .zoho-document-paper {
+        background-color: #FFFFFF;
+        padding: 40px;
+        border-radius: 4px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+        border: 1px solid #E5E7EB;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    
+    /* Zoho Table Styling */
+    .zoho-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 25px;
+    }
+    .zoho-table th {
+        background-color: #374151;
+        color: white;
+        text-align: left;
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+    .zoho-table td {
+        padding: 12px 10px;
+        border-bottom: 1px solid #E5E7EB;
+        font-size: 0.9rem;
+        color: #1F2937;
+    }
+    
+    /* Status Pills */
+    .p_badge {
+        padding: 4px 10px;
+        border-radius: 3px;
         font-size: 0.75rem;
-        font-weight: 600;
-        display: inline-block;
+        font-weight: bold;
     }
-    .badge-paid { background-color: #DCFCE7; color: #15803D; }
-    .badge-sent { background-color: #DBEAFE; color: #1D4ED8; }
-    .badge-draft { background-color: #F1F5F9; color: #475569; }
-
-    /* Custom Input Wrapper for Mobile Touch */
-    div.stSelectbox, div.stNumberInput, div.stTextInput {
-        margin-bottom: 15px !important;
-    }
-    
-    /* Sleek Primary Action Buttons */
-    .stButton>button {
-        background-color: #2563EB !important;
-        color: white !important;
-        border-radius: 10px !important;
-        border: none !important;
-        padding: 10px 20px !important;
-        font-weight: 600 !important;
-        transition: all 0.2s ease;
-    }
-    .stButton>button:hover {
-        background-color: #1D4ED8 !important;
-        transform: translateY(-1px);
-    }
+    .p_draft { background-color: #E5E7EB; color: #374151; }
+    .p_sent { background-color: #DBEAFE; color: #1E40AF; }
+    .p_paid { background-color: #D1FAE5; color: #065F46; }
     </style>
 """, unsafe_allow_html=True)
 
-# --- DATABASE / STATE CONTROLLER ---
-if 'clients' not in st.session_state:
-    st.session_state.clients = pd.DataFrame(columns=["Client Name", "Email", "Phone"])
-if 'products' not in st.session_state:
-    st.session_state.products = pd.DataFrame(columns=["Product/Service", "Rate"])
+# --- ENGINE DATABASE ---
 if 'documents' not in st.session_state:
-    st.session_state.documents = []
+    # Seed data mimicking your Zoho account format
+    st.session_state.documents = [
+        {"id": "QT-00104", "type": "Quote", "client": "Toronto HiFi Sound", "email": "info@torontohifi.ca", "item": "Custom Calibration Hookup", "rate": 1250.00, "qty": 1, "status": "Sent", "date": "2026-06-10"},
+        {"id": "QT-00103", "type": "Quote", "client": "Montreal Audio Lab", "email": "contact@mtlaudio.com", "item": "Acoustic Dampening Wall Layout", "rate": 890.00, "qty": 3, "status": "Draft", "date": "2026-06-08"}
+    ]
 
-# --- TOP BRANDING BLOCK ---
+# --- TOP CRM HEADER BANNER ---
 st.markdown("""
-    <div class="brand-banner">
-        <div class="brand-title">🔊 SENSIBLE HIFI</div>
-        <div class="brand-subtitle">Billing Studio & Client Ledger</div>
+    <div class="zoho-header">
+        <div class="zoho-logo">⚙️ Zoho Invoice <span style="color:#6B7280; font-weight:400; font-size:1rem;">| Estimates & Quotes</span></div>
+        <div style="font-size:0.85rem; color:#4B5563;">Sensible HiFi Studio Corporate Account</div>
     </div>
 """, unsafe_allow_html=True)
 
-# --- NAVIGATION TABS ---
-tab1, tab2, tab3 = st.tabs(["⚡ Quick Bill", "📂 Data Vault", "📜 Ledger & QB Export"])
+# --- SPLIT LAYOUT ENGINE ---
+sidebar_panel, visual_preview = st.columns([1, 2], gap="large")
 
 # ==========================================
-# TAB 1: QUICK BILLING COMPONENT (Zoho Style)
+# LEFT PANEL: ZOHO REPOSITORY SIDEBAR
 # ==========================================
-with tab1:
-    col1, col2 = st.columns([1, 1], gap="large")
+with sidebar_panel:
+    st.markdown("### 🔍 All Quotes")
     
-    with col1:
-        st.markdown("### 📝 Build Document")
-        doc_type = st.segmented_control("Type", ["Estimate", "Invoice"], default="Estimate")
+    # Quick creation box
+    with st.expander("➕ Create New Estimate/Quote", expanded=False):
+        c_name = st.text_input("Customer Name")
+        c_email = st.text_input("Customer Email")
+        i_name = st.text_input("Line Item/SKU Description")
+        i_rate = st.number_input("Rate per unit ($)", min_value=0.0, step=50.0)
+        i_qty = st.number_input("Quantity Ordered", min_value=1, step=1)
         
-        # Smart Client Dropdown
-        if not st.session_state.clients.empty:
-            client_options = st.session_state.clients["Client Name"].tolist()
-            selected_client = st.selectbox("Client Account", client_options)
-            client_email = st.session_state.clients[st.session_state.clients["Client Name"] == selected_client]["Email"].values[0]
-        else:
-            selected_client = st.text_input("Client Name", placeholder="e.g. John Doe")
-            client_email = st.text_input("Client Email", placeholder="e.g. john@domain.com")
-            
-        # Smart Product Dropdown
-        if not st.session_state.products.empty:
-            prod_options = st.session_state.products["Product/Service"].tolist()
-            selected_prod = st.selectbox("Line Item / Service", prod_options)
-            default_rate = float(st.session_state.products[st.session_state.products["Product/Service"] == selected_prod]["Rate"].values[0])
-        else:
-            selected_prod = st.text_input("Service Rendered", placeholder="e.g. Custom Audio Calibration")
-            default_rate = 0.0
-            
-        rate = st.number_input("Unit Rate ($)", min_value=0.0, value=default_rate)
-        qty = st.number_input("Quantity", min_value=1, value=1)
-        amount = qty * rate
-
-    with col2:
-        st.markdown("### 📱 Live Preview")
-        
-        status_class = "badge-sent" if doc_type == "Invoice" else "badge-draft"
-        status_label = "SENT/ACTIVE" if doc_type == "Invoice" else "DRAFT"
-        
-        st.markdown(f"""
-        <div class="invoice-card">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: 700; color: #0F172A; font-size: 1.1rem;">{doc_type.upper()}</span>
-                <span class="badge {status_class}">{status_label}</span>
-            </div>
-            <div style="margin-top: 15px; color: #475569; font-size: 0.9rem;">
-                <p style="margin: 2px 0;"><strong>Client:</strong> {selected_client}</p>
-                <p style="margin: 2px 0;"><strong>Email:</strong> {client_email}</p>
-                <p style="margin: 2px 0;"><strong>Issued:</strong> {datetime.today().date()}</p>
-            </div>
-            <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 15px 0;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.95rem; color: #0F172A;">
-                <span>{selected_prod} (x{qty})</span>
-                <span style="font-weight: 600;">${amount:,.2f}</span>
-            </div>
-            <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 15px 0;">
-            <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                <span style="font-size: 0.9rem; color: #64748B;">Total Amount Due</span>
-                <span style="font-size: 1.75rem; font-weight: 800; color: #0F172A;">${amount:,.2f}</span>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        attach_pay = st.checkbox("Generate Payment Link", value=True)
-        
-        if st.button(f"Finalize & Record {doc_type}"):
-            if selected_client and selected_prod:
-                doc_id = f"SH-{1000 + len(st.session_state.documents)}"
-                pay_url = f"https://checkout.stripe.com/pay/placeholder_{doc_id}" if attach_pay else "N/A"
-                
-                st.session_state.documents.append({
-                    "Doc ID": doc_id,
-                    "Type": doc_type,
-                    "Client": selected_client,
-                    "Email": client_email,
-                    "Item": selected_prod,
-                    "Amount": amount,
-                    "Status": "Sent" if doc_type == "Invoice" else "Draft/Estimate",
-                    "Date": datetime.now().strftime('%Y-%m-%d'),
-                    "Payment Link": pay_url
+        if st.button("Save as Draft"):
+            if c_name and i_name:
+                new_id = f"QT-00{105 + len(st.session_state.documents)}"
+                st.session_state.documents.insert(0, {
+                    "id": new_id, "type": "Quote", "client": c_name, "email": c_email,
+                    "item": i_name, "rate": i_rate, "qty": i_qty, "status": "Draft",
+                    "date": datetime.today().strftime('%Y-%m-%d')
                 })
-                st.success(f"{doc_type} saved successfully to Ledger!")
-            else:
-                st.error("Missing mandatory Client Name or Item data.")
+                st.success(f"{new_id} added to ledger grid.")
+                st.rerun()
 
-# ==========================================
-# TAB 2: DATA VAULT (CSV Multi-Importer)
-# ==========================================
-with tab2:
-    st.markdown("### 📥 Cloud Spread Data Sync")
-    st.write("Import files directly into your active dashboard memory instantly.")
+    st.markdown("---")
     
-    c1, c2 = st.columns(2, gap="medium")
-    with c1:
-        st.markdown("""
-        <div style="background-color: white; padding: 20px; border-radius: 12px; border: 1px solid #E2E8F0;">
-            <strong>Accounts Matrix (Clients)</strong><br>
-            <span style="font-size:0.8rem; color:#64748B;">Required Columns: Client Name, Email</span>
-        </div>
-        """, unsafe_allow_html=True)
-        c_file = st.file_uploader("Select Client File", type="csv", label_visibility="collapsed")
-        if c_file:
-            df = pd.read_csv(c_file)
-            if "Client Name" in df.columns and "Email" in df.columns:
-                st.session_state.clients = df[["Client Name", "Email"]]
-                st.success(f"Linked {len(df)} client records!")
-            else:
-                st.error("Header mismatch. Missing 'Client Name' or 'Email'.")
-
-    with c2:
-        st.markdown("""
-        <div style="background-color: white; padding: 20px; border-radius: 12px; border: 1px solid #E2E8F0;">
-            <strong>SKU / Price Book (Products)</strong><br>
-            <span style="font-size:0.8rem; color:#64748B;">Required Columns: Product/Service, Rate</span>
-        </div>
-        """, unsafe_allow_html=True)
-        p_file = st.file_uploader("Select Product File", type="csv", label_visibility="collapsed")
-        if p_file:
-            df = pd.read_csv(p_file)
-            if "Product/Service" in df.columns and "Rate" in df.columns:
-                st.session_state.products = df[["Product/Service", "Rate"]]
-                st.success(f"Linked {len(df)} catalog items!")
-            else:
-                st.error("Header mismatch. Missing 'Product/Service' or 'Rate'.")
-
-# ==========================================
-# TAB 3: STREAMLINED CARD LEDGER & QB EXPORT
-# ==========================================
-with tab3:
-    st.markdown("### 📊 Live Transaction Ledger")
-    
-    if st.session_state.documents:
-        df_docs = pd.DataFrame(st.session_state.documents)
+    # Vertical Card Selectors
+    for idx, doc in enumerate(st.session_state.documents):
+        badge_style = "p_sent" if doc['status'] == "Sent" else ("p_paid" if doc['status'] == "Paid" else "p_draft")
         
-        # Build Sleek Grid Cards instead of ugly spreadsheets (QuoteIQ Style)
-        for idx, row in df_docs.iterrows():
-            badge_type = "badge-paid" if row['Status'] == "Paid" else ("badge-sent" if row['Status'] == "Sent" else "badge-draft")
-            
-            # Master Container Card for every transaction row
+        # Selectable container element
+        with st.container():
             st.markdown(f"""
-            <div style="background-color: white; padding: 18px; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 12px;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <span style="font-weight: 700; color: #0F172A;">{row['Doc ID']}</span> 
-                        <span style="color:#64748B; font-size:0.85rem; margin-left: 10px;">{row['Date']}</span>
-                    </div>
-                    <span class="badge {badge_type}">{row['Status'].upper()}</span>
+            <div style="background-color: white; padding:15px; border-radius:6px; border-left: 5px solid #1E40AF; margin-bottom:10px;">
+                <div style="display:flex; justify-content:space-between; font-weight:700;">
+                    <span style="color:#111827;">{doc['id']}</span>
+                    <span style="color:#111827;">${(doc['rate']*doc['qty']):,.2f}</span>
                 </div>
-                <div style="margin-top: 8px; font-size: 0.95rem; color: #334155;">
-                    <strong>{row['Client']}</strong> — {row['Item']}
+                <div style="font-size:0.85rem; color:#4B5563; margin-top:3px;">{doc['client']}</div>
+                <div style="display:flex; justify-content:space-between; margin-top:8px; align-items:center;">
+                    <span style="font-size:0.75rem; color:#9CA3AF;">{doc['date']}</span>
+                    <span class="p_badge {badge_style}">{doc['status'].upper()}</span>
                 </div>
-                <div style="margin-top: 4px; font-size: 1.15rem; font-weight: 700; color: #0F172A;">
-                    ${row['Amount']:,.2f}
-                </div>
-                {f'<div style="font-size:0.8rem; color:#2563EB; margin-top:6px;">🔗 Payment Portal Active</div>' if row['Payment Link'] != 'N/A' else ''}
             </div>
             """, unsafe_allow_html=True)
             
-            # Operational Mini Action Panel directly under the card components
-            act1, act2, _ = st.columns([1, 1, 3])
-            if row['Type'] == "Estimate":
-                with act1:
-                    if st.button("Convert to Invoice", key=f"cnv_{idx}"):
-                        st.session_state.documents[idx]['Type'] = "Invoice"
-                        st.session_state.documents[idx]['Status'] = "Sent"
-                        st.rerun()
-            elif row['Status'] == "Sent":
-                with act1:
-                    if st.button("Mark as Paid", key=f"pd_{idx}"):
-                        st.session_state.documents[idx]['Status'] = "Paid"
-                        st.rerun()
-            st.markdown("<br>", unsafe_allow_html=True)
-            
-        # --- QUICKBOOKS SYNC EXPORTER ---
-        st.markdown("### 🗃️ QuickBooks System Sync")
-        st.write("Convert structural application rows into native QuickBooks Ledger columns.")
+            if st.button("View Live Sheet Details", key=f"sel_{doc['id']}"):
+                st.session_state.active_index = idx
+
+# Default to displaying the top item if nothing is selected yet
+if 'active_index' not in st.session_state:
+    st.session_state.active_index = 0
+
+# Secure index lookup protection
+active_idx = min(st.session_state.active_index, len(st.session_state.documents) - 1)
+active_doc = st.session_state.documents[active_idx]
+
+# ==========================================
+# RIGHT PANEL: ZOHO DESK PRINT VIEW
+# ==========================================
+with visual_preview:
+    # Ribbon Action Controls inside Preview Engine
+    action_col1, action_col2, action_col3 = st.columns([2, 2, 4])
+    with action_col1:
+        if active_doc['status'] != "Paid":
+            if st.button("⚡ Convert to Invoice", key="action_conv"):
+                st.session_state.documents[active_idx]['status'] = "Paid"
+                st.success("Converted status mapping smoothly.")
+                st.rerun()
+    with action_col2:
+        if active_doc['status'] == "Draft":
+            if st.button("✉️ Mark as Sent", key="action_sent"):
+                st.session_state.documents[active_idx]['status'] = "Sent"
+                st.rerun()
+
+    # The Zoho Professional Core Paper Sheet Frame
+    total_amount = active_doc['rate'] * active_doc['qty']
+    
+    st.markdown(f"""
+    <div class="zoho-document-paper">
+        <table style="width:100%; border:none;">
+            <tr>
+                <td style="border:none; padding:0; vertical-align:top;">
+                    <h2 style="margin:0; color:#1E40AF;">🔊 SENSIBLE HIFI</h2>
+                    <p style="font-size:0.85rem; color:#6B7280; margin:4px 0;">Ontario, Canada</p>
+                </td>
+                <td style="border:none; padding:0; text-align:right; vertical-align:top;">
+                    <h1 style="margin:0; font-size:2rem; color:#374151; font-weight:300;">ESTIMATE</h1>
+                    <p style="margin:4px 0; font-size:0.9rem;"><strong>Estimate #:</strong> {active_doc['id']}</p>
+                    <p style="margin:4px 0; font-size:0.9rem; color:#6B7280;"><strong>Date:</strong> {active_doc['date']}</p>
+                </td>
+            </tr>
+        </table>
         
-        qb_export_df = pd.DataFrame({
-            "RefNumber": df_docs["Doc ID"],
-            "TxnDate": df_docs["Date"],
-            "Customer": df_docs["Client"],
-            "Item": df_docs["Item"],
-            "Amount": df_docs["Amount"],
-            "Terms": "Net 30",
-            "IncomeAccount": "Sales / Audio Configuration"
-        })
+        <div style="margin-top: 40px; font-size:0.9rem;">
+            <p style="color:#6B7280; margin-bottom:5px; text-transform: uppercase; font-size:0.75rem; letter-spacing:1px;"><strong>Bill To:</strong></p>
+            <p style="margin:2px 0; font-size:1rem; color:#111827;"><strong>{active_doc['client']}</strong></p>
+            <p style="margin:2px 0; color:#4B5563;">{active_doc['email']}</p>
+        </div>
         
-        csv_io = io.StringIO()
-        qb_export_df.to_csv(csv_io, index=False)
+        <table class="zoho-table">
+            <thead>
+                <tr>
+                    <th>Item & Description</th>
+                    <th style="text-align:right; width:15%;">Rate</th>
+                    <th style="text-align:right; width:10%;">Qty</th>
+                    <th style="text-align:right; width:20%;">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>{active_doc['item']}</strong><br><span style="font-size:0.75rem; color:#6B7280;">Standard Audio Setup Verification Logistics</span></td>
+                    <td style="text-align:right;">${active_doc['rate']:,.2f}</td>
+                    <td style="text-align:right;">{active_doc['qty']}</td>
+                    <td style="text-align:right; font-weight:600;">${total_amount:,.2f}</td>
+                </tr>
+            </tbody>
+        </table>
         
-        st.download_button(
-            label="Download QuickBooks Structured CSV",
-            data=csv_io.getvalue(),
-            file_name=f"SENSIBLE_QB_{datetime.now().strftime('%m%d%Y')}.csv",
-            mime="text/csv"
-        )
-    else:
-        st.info("No documents currently on file. Use Tab 1 to build your first record.")
+        <div style="margin-top:30px; display:flex; justify-content:flex-end;">
+            <table style="width:40%; border-collapse:collapse;">
+                <tr>
+                    <td style="padding:8px 0; border:none; color:#4B5563;">Sub Total</td>
+                    <td style="padding:8px 0; border:none; text-align:right; font-weight:600;">${total_amount:,.2f}</td>
+                </tr>
+                <tr style="border-top:1px solid #E5E7EB; border-bottom:1px solid #111827;">
+                    <td style="padding:12px 0; font-size:1.1rem; font-weight:700; color:#111827;">Total ($)</td>
+                    <td style="padding:12px 0; font-size:1.1rem; font-weight:700; text-align:right; color:#1E40AF;">${total_amount:,.2f}</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div style="margin-top:60px; border-top:1px solid #F3F4F6; padding-top:15px; font-size:0.8rem; color:#9CA3AF;">
+            <p style="margin:0;">Notes: Terms set at Net 30 default execution. Thank you for your business!</p>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
