@@ -7,8 +7,8 @@ from datetime import datetime
 st.set_page_config(page_title="SENSIBLE HIFI Studio", page_icon="🔊", layout="wide")
 
 # Premium Modern Web Styling (Inspired by Zoho/QuoteIQ minimal card system)
-st.markdown(""", unsafe_allow_html=True)
-<style>
+st.markdown("""
+    <style>
     /* Global Background and Typography */
     .stApp { background-color: #F8FAFC; }
     h1, h2, h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important; }
@@ -68,6 +68,7 @@ st.markdown(""", unsafe_allow_html=True)
     }
     </style>
 """, unsafe_allow_html=True)
+
 # --- DATABASE / STATE CONTROLLER ---
 if 'clients' not in st.session_state:
     st.session_state.clients = pd.DataFrame(columns=["Client Name", "Email", "Phone"])
@@ -77,8 +78,8 @@ if 'documents' not in st.session_state:
     st.session_state.documents = []
 
 # --- TOP BRANDING BLOCK ---
-st.markdown(""", unsafe_allowed_html=True)
-<div class="brand-banner">
+st.markdown("""
+    <div class="brand-banner">
         <div class="brand-title">🔊 SENSIBLE HIFI</div>
         <div class="brand-subtitle">Billing Studio & Client Ledger</div>
     </div>
@@ -180,7 +181,8 @@ with tab2:
     
     c1, c2 = st.columns(2, gap="medium")
     with c1:
-        st.markdown(""", unsafe_allow_html=True)        <div style="background-color: white; padding: 20px; border-radius: 12px; border: 1px solid #E2E8F0;">
+        st.markdown("""
+        <div style="background-color: white; padding: 20px; border-radius: 12px; border: 1px solid #E2E8F0;">
             <strong>Accounts Matrix (Clients)</strong><br>
             <span style="font-size:0.8rem; color:#64748B;">Required Columns: Client Name, Email</span>
         </div>
@@ -195,12 +197,12 @@ with tab2:
                 st.error("Header mismatch. Missing 'Client Name' or 'Email'.")
 
     with c2:
-        st.markdown(""", unsafe_allowed_html=True)
+        st.markdown("""
         <div style="background-color: white; padding: 20px; border-radius: 12px; border: 1px solid #E2E8F0;">
             <strong>SKU / Price Book (Products)</strong><br>
             <span style="font-size:0.8rem; color:#64748B;">Required Columns: Product/Service, Rate</span>
         </div>
-        """, unsafe_allowed_html=True)
+        """, unsafe_allow_html=True)
         p_file = st.file_uploader("Select Product File", type="csv", label_visibility="collapsed")
         if p_file:
             df = pd.read_csv(p_file)
@@ -256,7 +258,7 @@ with tab3:
                     if st.button("Mark as Paid", key=f"pd_{idx}"):
                         st.session_state.documents[idx]['Status'] = "Paid"
                         st.rerun()
-            st.markdown("<br>", unsafe_allowed_html=True)
+            st.markdown("<br>", unsafe_allow_html=True)
             
         # --- QUICKBOOKS SYNC EXPORTER ---
         st.markdown("### 🗃️ QuickBooks System Sync")
