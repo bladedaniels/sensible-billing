@@ -57,7 +57,7 @@ if "doc_date" not in st.session_state:
 if "terms" not in st.session_state:
     st.session_state.terms = "Due on Receipt"
 if "due_date" not in st.session_state:
-    st.session_state.due_date = datetime.date.today()
+    st.session_state.due_date = datetime.today().date()
 if "cust_name" not in st.session_state:
     st.session_state.cust_name = ""
 if "cust_email" not in st.session_state:
